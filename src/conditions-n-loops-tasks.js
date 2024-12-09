@@ -435,15 +435,41 @@ function sortByAsc(arr) {
  * @return {string} The shuffled string.
  *
  * @example:
- *  '012345', 1 => '024135'
+ *  '01234', 4 => '02413' => '04321' => '03142' => '01234'
+ *  '0123', 2 => '0213' => '0123
+ *  '012', 2 => '021' => '012'
+ *  '0123456', 3 => '0246135' => '0415263' => '0123456'
  *  'qwerty', 1 => 'qetwry'
  *  '012345', 2 => '024135' => '043215'
  *  'qwerty', 2 => 'qetwry' => 'qtrewy'
- *  '012345', 3 => '024135' => '043215' => '031425'
+ *  '012345', 4 => '024135' => '043215' => '031425' => '012345'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  let result = str;
+  let i = 0;
+  if (iterations <= 0) return str;
+  do {
+    let evens = '';
+    let odds = '';
+    for (let j = 0; j < result.length; j += 1) {
+      if (j % 2 === 0) evens += result[j];
+      else odds += result[j];
+    }
+    result = evens + odds;
+    i += 1;
+  } while (i < iterations && result !== str);
+  const iterationsEffective = iterations % i;
+  for (let iter = 0; iter < iterationsEffective; iter += 1) {
+    let evens = '';
+    let odds = '';
+    for (let j = 0; j < result.length; j += 1) {
+      if (j % 2 === 0) evens += result[j];
+      else odds += result[j];
+    }
+    result = evens + odds;
+  }
+  return result;
 }
 
 /**
