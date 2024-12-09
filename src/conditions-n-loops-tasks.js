@@ -383,6 +383,29 @@ function rotateMatrix(matrix) {
   return matrix;
 }
 
+function partition(arr, left, right) {
+  const arrTemp = arr;
+  const pivot = arrTemp[right];
+  let pivotIndex = left;
+
+  for (let i = left; i < right; i += 1) {
+    if (pivot >= arrTemp[i]) {
+      [arrTemp[pivotIndex], arrTemp[i]] = [arrTemp[i], arrTemp[pivotIndex]];
+      pivotIndex += 1;
+    }
+  }
+  [arrTemp[pivotIndex], arrTemp[right]] = [arrTemp[right], arrTemp[pivotIndex]];
+  return pivotIndex;
+}
+
+function quickSort(arr, left, right) {
+  if (left < right) {
+    const pivotIndex = partition(arr, left, right);
+    quickSort(arr, left, pivotIndex - 1);
+    quickSort(arr, pivotIndex + 1, right);
+  }
+}
+
 /**
  * Sorts an array of numbers in ascending order in place.
  * Employ any sorting algorithm of your choice.
@@ -397,8 +420,9 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  quickSort(arr, 0, arr.length - 1);
+  return arr;
 }
 
 /**
